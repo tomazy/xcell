@@ -4,6 +4,7 @@
     "outDir": "dist",
     "removeComments": true,
     "sourceMap": false,
+    "target": "es5",
     "types": [
       "node"
     ]
