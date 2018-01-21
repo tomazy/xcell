@@ -1,0 +1,15 @@
+{
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+  },
+  "dependencies": {
+  },
+  "workspaces": [
+    "packages/*",
+    "docs/*",
+    "examples/*"
+  ],
+  "scripts": {
+  }
+}

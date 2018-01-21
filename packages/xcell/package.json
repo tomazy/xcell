@@ -1,0 +1,52 @@
+{
+  "name": "xcell",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "author": {
+    "email": "tomazy@go2.pl",
+    "name": "Tomek Maszkowski"
+  },
+  "description": "reactive cells for spreadsheet like calculations",
+  "keywords": [
+    "spreadsheet",
+    "reactive cells",
+    "reactive programming",
+    "directed acyclic graph",
+    "DAG",
+    "FRP"
+  ],
+  "scripts": {
+    "clean": "rm -fr dist/*",
+    "prebuild": "npm run clean",
+    "build": "npm-run-all -p build:node build:umd",
+    "build:node": "tsc",
+    "build:umd": "webpack -p",
+    "test": "jest"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jasmine": "2.8.4",
+    "@types/jest": "22.0.1",
+    "@types/node": "9.3.0",
+    "jest": "22.1.4",
+    "npm-run-all": "4.1.2",
+    "ts-jest": "22.0.1",
+    "ts-loader": "3.2.0",
+    "typescript": "2.6.2",
+    "webpack": "3.10.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      ".(ts|tsx)": "../../node_modules/ts-jest/preprocessor.js"
+    },
+    "testMatch": [
+      "**/*.test.ts"
+    ]
+  }
+}

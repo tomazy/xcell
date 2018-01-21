@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "preserveConstEnums": true,
+    "pretty": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "target": "es5",
+    "suppressImplicitAnyIndexErrors": true
+  }
+}

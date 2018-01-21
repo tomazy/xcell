@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.common.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "removeComments": true,
+    "sourceMap": false,
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/**/*.test.ts"
+  ]
+}
