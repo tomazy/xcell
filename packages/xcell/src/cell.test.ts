@@ -64,7 +64,7 @@ test('static cells emit change events', () => {
 
   $a.value = 3;
   expect(handler).toHaveBeenCalledTimes(1);
-  expect(handler).toHaveBeenCalledWith($a);
+  expect(handler).toHaveBeenCalledWith($a, 1);
   handler.mockReset();
 
   $a.value = 3;
@@ -74,14 +74,51 @@ test('static cells emit change events', () => {
 test('dynamic cell emit change events', () => {
   const handler = jest.fn();
 
-  const $b = createCell(1);
-  const $c = createCell(2);
-  const $a = createCell([$b, $c], (b, c) => b + c);
-  $a.on('change', handler);
+  const $a = createCell(1);
+  const $b = createCell(2);
+  const $c = createCell([$a, $b], (a, b) => a + b);
+  $c.on('change', handler);
 
   expect(handler).not.toHaveBeenCalled();
 
-  $b.value++;
+  $a.value++;
   expect(handler).toHaveBeenCalledTimes(1);
-  expect(handler).toHaveBeenCalledWith($a);
+  expect(handler).toHaveBeenCalledWith($c, 3);
 });
+
+test('replacing dependencies', () => {
+  const $a = createCell(1);
+  const $b = createCell(2);
+  const $c = createCell(3);
+  const $d = createCell(4);
+
+  const $sum = createCell([$a, $b], sum);
+  expect($sum.value).toBe(1 + 2);
+
+  const handler = jest.fn();
+  $sum.on('change', handler);
+
+  $sum.dependencies = [$c, $d];
+  expect($sum.value).toBe(3 + 4);
+  expect(handler).toHaveBeenCalledTimes(1);
+});
+
+test('disposing cells', () => {
+  const $a = createCell(123);
+  const $b = createCell([$a], a => a);
+  const $c = createCell([$b], b => b);
+
+  const handler = jest.fn();
+  $b.on('change', handler);
+
+  $b.dispose();
+  expect($b.dependencies.length).toBe(0);
+  expect($b.dependents.length).toBe(0);
+  expect($b.listenerCount('change')).toBe(0);
+
+  expect($c.dependencies.length).toBe(0);
+});
+
+function sum(...args: number[]) {
+  return args.reduce((acc, e) => acc + e, 0);
+}

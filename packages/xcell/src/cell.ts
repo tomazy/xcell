@@ -23,8 +23,51 @@ export class Cell extends EventEmitter {
     this._value = value;
     this._formula = formula;
 
-    for (const d of deps) {
-      this._dependencies.push(d);
+    this.dependencies = deps;
+  }
+
+  public dispose() {
+    for (const d of this._dependents) {
+      d.dependencies = d.dependencies.filter(c => c !== this);
+    }
+    this.dependencies = [];
+    this.removeAllListeners('change');
+  }
+
+  public get value() {
+    return this._value;
+  }
+
+  public set value(v) {
+    if (this._value === v) return;
+    const prev = this._value;
+    this._value = v;
+    if (!this._updating) {
+      this.updateDependents();
+    }
+    this.emit('change', this, prev);
+  }
+
+  public get id() {
+    return this._id;
+  }
+
+  public get dependents() {
+    return [...this._dependents];
+  }
+
+  public get dependencies() {
+    return [...this._dependencies];
+  }
+
+  public set dependencies(v) {
+    for (const d of this._dependencies) {
+      d.removeDependent(this);
+    }
+
+    this._dependencies = [...v];
+
+    for (const d of this._dependencies) {
       d.addDependent(this);
     }
 
@@ -35,6 +78,10 @@ export class Cell extends EventEmitter {
 
   private addDependent(cell: Cell) {
     this._dependents.push(cell);
+  }
+
+  private removeDependent(cell: Cell) {
+    this._dependents = this._dependents.filter(c => c !== cell);
   }
 
   private update() {
@@ -75,23 +122,6 @@ export class Cell extends EventEmitter {
     while (l--) {
       toUpdate[l].update();
     }
-  }
-
-  public get value() {
-    return this._value;
-  }
-
-  public set value(v) {
-    if (this._value === v) return;
-    this._value = v;
-    if (!this._updating) {
-      this.updateDependents();
-    }
-    this.emit('change', this);
-  }
-
-  public get id() {
-    return this._id;
   }
 }
 

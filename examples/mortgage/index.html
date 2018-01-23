@@ -1,0 +1,74 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Mortgage calculator</title>
+  <style>
+    :root {
+      --black: rgba(0, 0, 0, .9);
+      --light-gray: rgba(0, 0, 0, .1)
+    }
+
+    body, input {
+      font-family: sans-serif;
+      color: var(--black);
+    }
+
+    body {
+      padding: 1em;
+      font-family: sans-serif;
+    }
+
+    input {
+      text-align: right;
+      font-size: 1em;
+      border: none;
+      border-bottom: 1px solid var(--light-gray);
+      outline: 0;
+      transition: all .3s cubic-bezier(.645,.045,.355, 1);
+    }
+
+    input:focus {
+      border-bottom: 1px solid var(--black);
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    table caption {
+      margin-top: 1em;
+      margin-bottom: 1em;
+      font-style: italic;
+    }
+
+    td {
+      padding: .5em 1em;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .table-responsive {
+      width: 100%;
+      overflow-y: hidden;
+      overflow-x: auto;
+    }
+
+    table.installments {
+      width: 100%;
+      max-width: 550px;
+    }
+
+    table.installments td {
+      padding: 4px 1em;
+      border-top: 1px solid silver;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+</body>
+</html>
