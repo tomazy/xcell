@@ -1,6 +1,6 @@
 import { createSheet } from './mortgage';
 import yo from 'yo-yo';
-import raf from 'raf';
+import requestAnimationFrame from 'raf';
 import formatDate from 'date-fns/format'
 import parseDate from 'date-fns/parse'
 
@@ -8,7 +8,7 @@ const sheet = createSheet({
   loanAmount: 200000,
   rate: 1.2,
   loanDate: new Date(),
-  loanTermYears: 10,
+  loanTermYears: 20,
 })
 
 function input(cell, attrs = {}) {
@@ -51,6 +51,17 @@ function input(cell, attrs = {}) {
   }
 }
 
+function output(cell, format) {
+  cell.on('change', cellChanged);
+
+  return yo`<span data-cell-id="${cell.id}">${format(cell.value)}</span>`;
+
+  function cellChanged({id, value}) {
+    const el = document.querySelector(`[data-cell-id="${id}"]`)
+    el.textContent = format(value)
+  }
+}
+
 function form() {
   return yo`
     <form>
@@ -81,93 +92,89 @@ function form() {
         </tr>
         <tr>
           <td>Total interest to pay:</td>
-          <td><b>${formatMoney(sheet.$interestSum.value)}</b></td>
+          <td><b>${output(sheet.$interestSum, formatMoney)}</b></td>
         </tr>
         <tr>
-          <td>Total:</td>
-          <td><b>${formatMoney(sheet.$amountSum.value)}</b></td>
+          <td>Total to pay:</td>
+          <td><b>${output(sheet.$amountSum, formatMoney)}</b></td>
         </tr>
       </table>
     </form>
   `
 }
 
-function installments() {
-  const items = sheet.$installments.value;
-  if (!items.length) { return null }
-  return yo`
-    <div class="table-responsive">
-      <table class="installments">
-        <caption>Monthly payments</caption>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Date</th>
-            <th>Interest</th>
-            <th>Principal</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-        ${items.map(ii => (
-          yo`
-          <tr>
-            <td class="text-right">
-              ${ii.idx + 1}
-            </td>
-            <td>
-              ${formatDate(ii.$date.value, 'YYYY-MM-DD')}
-            </td>
-            <td class="text-right">
-              ${formatMoney(ii.$interest.value)}
-            </td>
-            <td class="text-right">
-              ${formatMoney(ii.$principal.value)}
-            </td>
-            <td class="text-right">
-              ${formatMoney(ii.$amount.value)}
-            </td>
-          </tr>
-          `
-        ))}
-        </tbody>
-      </table>
-    </div>
-  `
+function installments($installments) {
+  const element = renderInstallments($installments.value);
+
+  $installments.on('change', ({ value }) => {
+    yo.update(element, renderInstallments(value))
+  })
+
+  return element;
+
+  function renderInstallments(items) {
+    return yo`
+      <div class="table-responsive">
+        ${
+          items.length
+            ? yo`
+            <table class="installments">
+              <caption>Monthly payments</caption>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Date</th>
+                  <th>Interest</th>
+                  <th>Principal</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+              ${items.map(ii => (
+                yo`
+                <tr>
+                  <td class="text-right">
+                    ${ii.idx + 1}
+                  </td>
+                  <td>
+                    ${output(ii.$date, _formatDate)}
+                  </td>
+                  <td class="text-right">
+                    ${output(ii.$interest, formatMoney)}
+                  </td>
+                  <td class="text-right">
+                    ${output(ii.$principal, formatMoney)}
+                  </td>
+                  <td class="text-right">
+                    ${output(ii.$amount, formatMoney)}
+                  </td>
+                </tr>
+                `
+              ))}
+              </tbody>
+            </table>`
+            : null
+        }
+      </div>
+    `
+  }
+
+  function _formatDate(date) {
+    return formatDate(date, 'YYYY-MM-DD')
+  }
 }
 
 function app() {
   return yo`
-  <div>
-    <h1>Mortgage calculator</h1>
-    ${form()}
-    <hr />
-    ${installments()}
-  </div>`;
+    <div>
+      <h1>Mortgage calculator</h1>
+      ${form()}
+      <hr />
+      ${installments(sheet.$installments)}
+    </div>`;
 }
 
-const root = document.body.appendChild(document.createElement('div'))
-render();
-watchSheet();
-
-function render() {
-  if (render._raf) {
-    return;
-  }
-  render._raf = raf(() => {
-    const a = app()
-    yo.update(root, a)
-    delete render._raf
-  })
-}
-
-function watchSheet() {
-  Object.keys(sheet).forEach(key => {
-    if (typeof sheet[key].on === 'function') {
-      sheet[key].on('change', render)
-    }
-  })
-}
+document.body.appendChild(app())
 
 function formatMoney(v) {
   return Number.isFinite(v)
