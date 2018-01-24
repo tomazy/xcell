@@ -15,6 +15,8 @@ export class Cell extends EventEmitter {
   private _value: any;
   private _id: number;
   private _updating = false;
+  private _disposing = false;
+  private _disposed = false;
 
   constructor(options: Options) {
     super();
@@ -27,11 +29,10 @@ export class Cell extends EventEmitter {
   }
 
   public dispose() {
-    for (const d of this._dependents) {
-      d.dependencies = d.dependencies.filter(c => c !== this);
-    }
+    this._disposing = true;
     this.dependencies = [];
     this.removeAllListeners('change');
+    this._disposed = true;
   }
 
   public get value() {
@@ -76,6 +77,10 @@ export class Cell extends EventEmitter {
     }
   }
 
+  get disposed() {
+    return this._disposed;
+  }
+
   private addDependent(cell: Cell) {
     this._dependents.push(cell);
   }
@@ -85,7 +90,7 @@ export class Cell extends EventEmitter {
   }
 
   private update() {
-    if (!this._formula) return;
+    if (!this._formula || this._disposing || this._disposed) return;
     this._updating = true;
     const args = this._dependencies.map(d => d.value);
     this.value = this._formula.apply(this, args);

@@ -112,11 +112,14 @@ test('disposing cells', () => {
   $b.on('change', handler);
 
   $b.dispose();
+  expect($b.disposed).toBe(true);
   expect($b.dependencies.length).toBe(0);
-  expect($b.dependents.length).toBe(0);
   expect($b.listenerCount('change')).toBe(0);
+  expect(handler).not.toHaveBeenCalled();
 
-  expect($c.dependencies.length).toBe(0);
+  // The client is responsible to remove the disposed cell
+  // from its dependents. So here $b still is a dependency of $c.
+  expect($c.dependencies.indexOf($b)).toBeGreaterThan(-1);
 });
 
 function sum(...args: number[]) {
