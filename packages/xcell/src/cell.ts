@@ -1,14 +1,23 @@
 import { EventEmitter } from 'events';
+
 export type Formula = (...args: any[]) => any;
+export type EqualFunction = (a: any, b: any) => boolean;
 
 export interface Options {
-  value: any;
+  value?: any;
   deps?: Cell[];
   formula?: Formula;
+  equalFunction?: EqualFunction;
 }
 
 export class Cell extends EventEmitter {
   private static nextId = 1;
+
+  /**
+   * for debugging purposes
+   */
+  public name: string;
+
   private _dependencies: Cell[] = [];
   private _dependents: Cell[] = [];
   private _formula?: Formula;
@@ -17,13 +26,15 @@ export class Cell extends EventEmitter {
   private _updating = false;
   private _disposing = false;
   private _disposed = false;
+  private _equalFunction?: EqualFunction;
 
   constructor(options: Options) {
     super();
-    const { value, formula, deps = [] } = options;
+    const { value, formula, deps = [], equalFunction } = options;
     this._id = Cell.nextId++;
     this._value = value;
     this._formula = formula;
+    this._equalFunction = equalFunction;
 
     this.dependencies = deps;
   }
@@ -40,13 +51,19 @@ export class Cell extends EventEmitter {
   }
 
   public set value(v) {
-    if (this._value === v) return;
+    if (this._equalFunction) {
+      if (this._equalFunction(this._value, v)) {
+        return;
+      }
+    } else if (this._value === v) {
+      return;
+    }
     const prev = this._value;
     this._value = v;
+    this.emit('change', this, prev);
     if (!this._updating) {
       this.updateDependents();
     }
-    this.emit('change', this, prev);
   }
 
   public get id() {

@@ -3,7 +3,7 @@ module.exports = {
   output: {
     library: 'xcell',
     libraryTarget: 'umd',
-    filename: 'xcell.umd.js',
+    filename: 'xcell-umd.js',
     path: __dirname + '/dist',
   },
 

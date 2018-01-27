@@ -1,14 +1,15 @@
-import { createSheet } from './mortgage';
+import { createStore } from './mortgage';
 import yo from 'yo-yo';
-import requestAnimationFrame from 'raf';
 import formatDate from 'date-fns/format'
 import parseDate from 'date-fns/parse'
+import { inspect } from 'xcell-inspect';
+import { Cell } from 'xcell';
 
-const sheet = createSheet({
-  loanAmount: 200000,
+const store = createStore({
+  loanAmount: 500000,
   rate: 1.2,
   loanDate: new Date(),
-  loanTermYears: 20,
+  loanTermYears: 30,
 })
 
 function input(cell, attrs = {}) {
@@ -69,34 +70,34 @@ function form() {
         <tr>
           <td>Loan amount:</td>
           <td>
-            ${input(sheet.$loanAmount, { type: 'number', min: 1, max: 9000000 })}$
+            ${input(store.$loanAmount, { type: 'number', min: 1, max: 9000000 })}$
           </td>
         </tr>
         <tr>
           <td>Interest rate:</td>
           <td>
-            ${input(sheet.$rate, { type: 'number', step: 0.1, min: 0, max: 100 })}%
+            ${input(store.$rate, { type: 'number', step: 0.1, min: 0, max: 100 })}%
           </td>
         </tr>
         <tr>
           <td>Loan term:</td>
           <td>
-            ${input(sheet.$loanTermYears, { type: 'number', step: 1, min: 1, max: 40 })} years
+            ${input(store.$loanTermYears, { type: 'number', step: 1, min: 1, max: 40 })} years
           </td>
         </tr>
         <tr>
           <td>Loan date:</td>
           <td>
-            ${input(sheet.$loanDate, { type: 'date', placeholder: 'YYYY-MM-DD' })}
+            ${input(store.$loanDate, { type: 'date', placeholder: 'YYYY-MM-DD' })}
           </td>
         </tr>
         <tr>
           <td>Total interest to pay:</td>
-          <td><b>${output(sheet.$interestSum, formatMoney)}</b></td>
+          <td><b>${output(store.$interestSum, formatMoney)}</b></td>
         </tr>
         <tr>
           <td>Total to pay:</td>
-          <td><b>${output(sheet.$amountSum, formatMoney)}</b></td>
+          <td><b>${output(store.$amountSum, formatMoney)}</b></td>
         </tr>
       </table>
     </form>
@@ -170,7 +171,7 @@ function app() {
       <h1>Mortgage calculator</h1>
       ${form()}
       <hr />
-      ${installments(sheet.$installments)}
+      ${installments(store.$installments)}
     </div>`;
 }
 
@@ -181,3 +182,41 @@ function formatMoney(v) {
     ? `$${v.toFixed(2)}`
     : '?'
 }
+
+function autoNameCellsForGraph(obj, prefix = '') {
+  for (const key in obj) {
+    if (obj[key] instanceof Cell) {
+      obj[key].name = prefix + key
+    }
+  }
+}
+
+function autoNameInstallmentsCellsForGraph({ value }) {
+  value.forEach((ii, idx) => {
+    autoNameCellsForGraph(ii, `I.[${idx}].`)
+  })
+}
+
+function extractCellsFromStore(store) {
+  const result = [];
+  for (const key in store) {
+    if (store[key] instanceof Cell) {
+      result.push(store[key])
+    }
+  }
+  return result;
+}
+
+// connect the debug graph
+autoNameCellsForGraph(store);
+autoNameInstallmentsCellsForGraph(store.$installments)
+store.$installments.on('change', autoNameInstallmentsCellsForGraph);
+document.body.appendChild(
+  inspect(
+    extractCellsFromStore(store),
+    {
+      renderGraph: false,
+      renderDOT: true,
+    }
+  )
+)

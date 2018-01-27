@@ -5,8 +5,8 @@
   "private": true,
   "dependencies": {
     "date-fns": "1.29.0",
-    "raf": "3.4.0",
     "xcell": "*",
+    "xcell-inspect": "*",
     "yo-yo": "1.4.1"
   },
   "devDependencies": {

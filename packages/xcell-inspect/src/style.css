@@ -1,0 +1,100 @@
+:root {
+  --light-gray: #ddd;
+}
+
+.xcell-inspect {
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+  background-color: rgb(245, 245, 245);
+  max-width: 640px;
+  max-height: 720px;
+  overflow: auto;
+  font-size: 13px;
+}
+
+.xcell-inspect div {
+  padding: 0;
+  margin: 0;
+}
+
+.xcell-inspect .text-right {
+  text-align: right;
+}
+
+.xcell-inspect .xcell-inspect-menu {
+  padding: 4px;
+  font-size: 12px;
+}
+
+.xcell-inspect .xcell-inspect-error {
+  color: red;
+  padding: 1em;
+  white-space: pre;
+  overflow: auto;
+}
+
+.xcell-inspect .xcell-inspect-wrapper {
+  max-height: 640px;
+  overflow: auto;
+}
+
+.xcell-inspect.hide .xcell-inspect-wrapper {
+  display: none;
+}
+
+.xcell-inspect svg {
+  display: block;
+  border: 1px solid var(--light-gray);
+}
+
+.xcell-inspect .nodes ellipse {
+  stroke: #ccc;
+  stroke-width: .02px;
+  fill: white;
+  transition: fill 2s ease;
+}
+
+.xcell-inspect .node.changed ellipse {
+  fill: rgb(173, 255, 47);
+  transition: none;
+}
+
+.xcell-inspect .node.new ellipse {
+  fill: yellow;
+  transition: none;
+}
+
+.xcell-inspect .nodes rect {
+  stroke: #333;
+  stroke-width: .01px;
+  fill: none;
+}
+
+.xcell-inspect .nodes text {
+  font-family: monospace;
+  font-size: .0015in
+}
+
+.xcell-inspect .edges path {
+  stroke: #ccc;
+  stroke-width: .02px;
+  fill: none;
+}
+
+.xcell-inspect .xcell-inspect-wrapper,
+.xcell-inspect .xcell-inspect-cell-count,
+.xcell-inspect .xcell-inspect-dot {
+  padding: 4px;
+}
+
+.xcell-inspect .xcell-inspect-dot pre {
+  background-color: white;
+  max-height: 300px;
+  max-width: 100%;
+  overflow: auto;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: 1px solid var(--light-gray);
+}

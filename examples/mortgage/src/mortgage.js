@@ -20,7 +20,7 @@ class Installment {
   }
 }
 
-export function createSheet({ loanAmount, rate, loanDate, loanTermYears = 30 }) {
+export function createStore({ loanAmount, rate, loanDate, loanTermYears = 30 }) {
   const $rate = $(rate)
   const $loanAmount = $(loanAmount)
   const $loanTermYears = $(loanTermYears)
@@ -104,74 +104,10 @@ export function createSheet({ loanAmount, rate, loanDate, loanTermYears = 30 }) 
     $rate,
     $loanAmount,
     $loanTermYears,
+    $loanTermMonths,
     $loanDate,
     $installments,
     $interestSum,
     $amountSum,
   }
 }
-const $rate = $(1.2)
-const $loanAmount = $(425000)
-const $loanTermYears = $(30)
-const $loanTermMonths = $([$loanTermYears], x => x * 12)
-const $loanDate = $(new Date(2018, 0, 1))
-
-const $installments = $(
-  [$loanTermMonths],
-  (n) => {
-    const result = []
-    let prev;
-
-    for (let i = 0; i < n; i++) {
-      void function makeInstallment(idx) {
-        const remaining = n - idx;
-
-        const $date = $([$loanDate], d => getInstallmentDate(d, idx))
-        const $paid = prev
-          ? $([prev.$paid, prev.$principal], plus)
-          : $(0)
-        const $debt = $([$loanAmount, $paid], minus)
-        const $amount = $([$debt, $rate], (debt, rate) => getMonthlyPayment(debt, remaining, rate))
-        const $interestDays = $([
-          $date,
-          prev ? prev.$date : $loanDate
-        ], differenceInDays)
-        const $interest = $([$debt, $rate, $interestDays], getInstallmentInterest)
-        const $principal = $([$amount, $interest], minus)
-
-        const installment = {
-          idx,
-          $date,
-          $interestDays,
-          $debt,
-          $paid,
-          $interest,
-          $principal,
-          $amount,
-        }
-
-        result.push(installment)
-        prev = installment;
-      }(i)
-    }
-
-    return result;
-  }
-)
-
-const $interestRange = $([$installments], installments =>
-  installments.map(i => i.$interest)
-)
-
-const $interestSum = $($interestRange.value, sum)
-$interestRange.on('change', ({ value }) => {
-  $interestSum.dependencies = value
-})
-
-const $amountRange = $([$installments], installments =>
-  installments.map(i => i.$amount)
-)
-const $amountSum = $($amountRange.value, sum)
-$amountRange.on('change', ({ value }) => {
-  $amountSum.dependencies = value
-})

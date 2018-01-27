@@ -1,0 +1,59 @@
+{
+  "name": "xcell-inspect",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "repository": "https://github.com/tomazy/xcell/tree/master/packages/xcell-inspect",
+  "author": {
+    "email": "tomazy@go2.pl",
+    "name": "Tomek Maszkowski"
+  },
+  "description": "xcell inspector",
+  "keywords": [
+    "graph",
+    "dot"
+  ],
+  "dependencies": {
+    "debug": "3.1.0",
+    "lodash.debounce": "4.0.8",
+    "lodash.isequal": "4.5.0",
+    "viz.js": "1.8.0",
+    "xcell": "^0.0.4",
+    "yo-yo": "1.4.1"
+  },
+  "devDependencies": {
+    "@types/core-js": "0.9.46",
+    "@types/jasmine": "2.8.4",
+    "@types/jest": "22.0.1",
+    "@types/node": "9.3.0",
+    "jest": "22.1.4",
+    "npm-run-all": "4.1.2",
+    "raw-loader": "0.5.1",
+    "ts-jest": "22.0.1",
+    "ts-loader": "3.2.0",
+    "typescript": "2.6.2",
+    "webpack": "3.10.0",
+    "worker-loader": "1.1.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      ".(ts|tsx)": "../../node_modules/ts-jest/preprocessor.js"
+    },
+    "testMatch": [
+      "**/*.test.ts"
+    ]
+  },
+  "scripts": {
+    "clean": "rm -fr dist/*",
+    "prebuild": "npm run clean",
+    "build": "webpack -p",
+    "build:debug": "webpack -d",
+    "test": "jest",
+    "test:watch": "npm run test -- --watch"
+  }
+}

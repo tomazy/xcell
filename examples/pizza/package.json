@@ -15,6 +15,7 @@
     "build": "webpack -p"
   },
   "dependencies": {
-    "xcell": "latest"
+    "xcell": "*",
+    "xcell-inspect": "*"
   }
 }

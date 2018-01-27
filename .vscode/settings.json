@@ -1,6 +1,10 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
+    "debounced",
+    "isequal",
+    "lightgrey",
+    "morhpdom",
     "readonly",
     "xcell"
   ]
