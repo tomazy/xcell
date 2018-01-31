@@ -1,21 +1,21 @@
 // tslint:disable:no-console
-import { createCell } from './cell';
+import { createCell as xcell } from './cell';
 
 test('static cell has a value', () => {
-  const $a = createCell(123);
+  const $a = xcell(123);
   expect($a.value).toEqual(123);
 });
 
 test('cells have unique ids', () => {
-  const $a = createCell(1);
-  const $b = createCell(2);
+  const $a = xcell(1);
+  const $b = xcell(2);
   expect($a.id).not.toEqual($b.id);
 });
 
 test('dynamic cell updates when deps change', () => {
-  const $b = createCell(1);
-  const $c = createCell(2);
-  const $a = createCell([$b, $c], (b, c) => b + c);
+  const $b = xcell(1);
+  const $c = xcell(2);
+  const $a = xcell([$b, $c], (b, c) => b + c);
 
   expect($a.value).toEqual(3);
 
@@ -27,7 +27,7 @@ test('dynamic cell updates when deps change', () => {
 });
 
 test('dynamic cell without deps', () => {
-  const $a = createCell([], () => 123);
+  const $a = xcell([], () => 123);
   expect($a.value).toEqual(123);
 });
 
@@ -44,10 +44,10 @@ test('glitch in diamond', () => {
   */
   const formula = jest.fn();
 
-  const $a = createCell(1);
-  const $b = createCell([$a], a => a + 1);
-  const $c = createCell([$a], a => a + 1);
-  createCell([$b, $c], formula);
+  const $a = xcell(1);
+  const $b = xcell([$a], a => a + 1);
+  const $c = xcell([$a], a => a + 1);
+  xcell([$b, $c], formula);
 
   expect(formula).toHaveBeenCalledTimes(1);
   formula.mockReset();
@@ -59,7 +59,7 @@ test('glitch in diamond', () => {
 
 test('static cells emit change events', () => {
   const handler = jest.fn();
-  const $a = createCell(1);
+  const $a = xcell(1);
   $a.on('change', handler);
 
   $a.value = 3;
@@ -74,9 +74,9 @@ test('static cells emit change events', () => {
 test('dynamic cell emit change events', () => {
   const handler = jest.fn();
 
-  const $a = createCell(1);
-  const $b = createCell(2);
-  const $c = createCell([$a, $b], (a, b) => a + b);
+  const $a = xcell(1);
+  const $b = xcell(2);
+  const $c = xcell([$a, $b], (a, b) => a + b);
   $c.on('change', handler);
 
   expect(handler).not.toHaveBeenCalled();
@@ -87,13 +87,13 @@ test('dynamic cell emit change events', () => {
 });
 
 test('dynamic dependencies (range)', () => {
-  const $a1 = createCell(1);
-  const $a2 = createCell(1);
+  const $a1 = xcell(1);
+  const $a2 = xcell(1);
 
-  const $b1 = createCell(10);
-  const $b2 = createCell(10);
+  const $b1 = xcell(10);
+  const $b2 = xcell(10);
 
-  const $all = createCell({
+  const $all = xcell({
     $a1,
     $a2,
     $b1,
@@ -101,32 +101,32 @@ test('dynamic dependencies (range)', () => {
   });
 
   // select only cells starting with "$a"
-  const $rangeDeps = createCell([$all], (o) => (
+  const $rangeDeps = xcell([$all], (o) => (
     Object.keys(o)
       .filter(k => k.slice(0, 2) === '$a')
       .map(k => o[k])
   ));
 
-  const $range = createCell($rangeDeps.value, (...args) => args);
+  const $range = xcell($rangeDeps.value, (...args) => args);
   $rangeDeps.on('change', ({ value }) => {
     // we have to explicitly update the dependencies of the range
     $range.dependencies = value;
   });
 
-  const $sum = createCell([$range], range => sum(...range));
+  const $sum = xcell([$range], range => sum(...range));
   expect($sum.value).toBe(1 + 1);
 
-  $all.value = {...$all.value, $a3: createCell(1000) };
+  $all.value = {...$all.value, $a3: xcell(1000) };
   expect($sum.value).toBe(1 + 1 + 1000);
 });
 
 test('replacing dependencies', () => {
-  const $a = createCell(1);
-  const $b = createCell(2);
-  const $c = createCell(3);
-  const $d = createCell(4);
+  const $a = xcell(1);
+  const $b = xcell(2);
+  const $c = xcell(3);
+  const $d = xcell(4);
 
-  const $sum = createCell([$a, $b], sum);
+  const $sum = xcell([$a, $b], sum);
   expect($sum.value).toBe(1 + 2);
 
   const handler = jest.fn();
@@ -141,9 +141,9 @@ test('replacing dependencies', () => {
 });
 
 test('disposing cells', () => {
-  const $a = createCell(123);
-  const $b = createCell([$a], a => a);
-  const $c = createCell([$b], b => b);
+  const $a = xcell(123);
+  const $b = xcell([$a], a => a);
+  const $c = xcell([$b], b => b);
 
   const handler = jest.fn();
   $b.on('change', handler);

@@ -1,28 +1,28 @@
-import { createCell, Cell } from 'xcell'
-import { inspect } from 'xcell-inspect';
+import xcell, { Cell } from 'xcell'
+import { inspect } from 'xcell-inspect'
 
 /* 1. create the store */
 function createStore({ net, taxPercent, tipPercent }) {
-  const $net = createCell(15)
-  const $taxPercent = createCell(13)
-  const $tipPercent = createCell(15)
-  const $tax = createCell(
+  const $net = xcell(15)
+  const $taxPercent = xcell(13)
+  const $tipPercent = xcell(15)
+  const $tax = xcell(
     [$net, $taxPercent],
     (net, taxPercent) => net * taxPercent / 100,
   )
-  const $gross = createCell(
+  const $gross = xcell(
     [$net, $tax],
     (net, tax) => net + tax,
   )
-  const $tip = createCell(
+  const $tip = xcell(
     [$gross, $tipPercent],
     (gross, tipPercent) => gross * tipPercent / 100,
   )
-  const $total = createCell(
+  const $total = xcell(
     [$gross, $tip],
     (gross, tip) => gross + tip,
   )
-  const $extraPercent = createCell(
+  const $extraPercent = xcell(
     [$net, $total],
     (net, total) => (total > net)
       ? Math.round(((total - net) / net) * 100)

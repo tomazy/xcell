@@ -1,6 +1,6 @@
 import debounce = require('lodash.debounce');
 import deepEqual = require('lodash.isequal');
-import { Cell, createCell as xcell } from 'xcell';
+import xcell, { Cell } from 'xcell';
 import * as yo from 'yo-yo';
 
 import cell2node from './cell-to-dot-node';
