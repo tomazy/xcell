@@ -1,5 +1,10 @@
 # xcell monorepo
 
 Packages:
-* See [xcell](packages/xcell)
-* See [xcell-inspect](packages/xcell-inspect)
+* [xcell](packages/xcell)
+* [xcell-inspect](packages/xcell-inspect)
+
+Examples:
+* [pizza](examples/pizza)
+* [mortgage](examples/mortgage)
+* [spreadsheet](examples/spreadsheet)
