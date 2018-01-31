@@ -1,10 +1,14 @@
+const path = require('path')
+
+const distDir = path.join(__dirname, 'dist')
+
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/index-umd.ts',
   output: {
     library: 'xcell',
     libraryTarget: 'umd',
     filename: 'xcell-umd.js',
-    path: __dirname + '/dist',
+    path: distDir,
   },
 
   resolve: {

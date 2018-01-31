@@ -2,43 +2,40 @@ path = require('path')
 
 const distDir = path.join(__dirname, 'dist')
 
-const rules = [{
-  test: /\.worker\./,
-  use: {
-    loader: 'worker-loader',
-    options: {
-      inline: true,
-      fallback: false
-    }
-  }
-}, {
-  test: /\.ts$/,
-  loader: 'ts-loader',
-  options: {
-    compilerOptions: {
-      declaration: true,
-      target: 'es5',
-      outDir: '',
-    }
-  }
-}];
-
-const defaultConfig = {
-  entry: './src/index.ts',
-
+const defaultConfig = (declaration) => ({
   resolve: {
     extensions: ['.ts', '.js', '.json'],
   },
 
   module: {
-    rules,
+    rules: [{
+      test: /\.worker\./,
+      use: {
+        loader: 'worker-loader',
+        options: {
+          inline: true,
+          fallback: false
+        }
+      }
+    }, {
+      test: /\.ts$/,
+      loader: 'ts-loader',
+      options: {
+        compilerOptions: {
+          declaration,
+          target: 'es5',
+          outDir: '',
+        }
+      }
+    }],
   },
 
   plugins: []
-};
+});
 
 module.exports = [
-  Object.assign({}, defaultConfig, {
+  Object.assign(defaultConfig(false), {
+    entry: './src/index-umd.ts',
     output: {
       library: 'xcellInspect',
       libraryTarget: 'umd',
@@ -47,7 +44,8 @@ module.exports = [
     },
   }),
 
-  Object.assign({}, defaultConfig, {
+  Object.assign(defaultConfig(true), {
+    entry: './src/index.ts',
     output: {
       filename: 'index.js',
       libraryTarget: 'commonjs2',
