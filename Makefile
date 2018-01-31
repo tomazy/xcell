@@ -1,4 +1,4 @@
-PONY: doc doc-examples
+.PHONY: docs docs-examples
 
 docs:docs-examples
 
