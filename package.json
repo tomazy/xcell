@@ -12,6 +12,7 @@
   "scripts": {
     "xcell:build:for-debug": "cd packages/xcell && npm run build:for-debug",
     "publish": "lerna publish",
-    "build": "lerna run build"
+    "build": "lerna run build",
+    "make-docs": "make docs"
   }
 }

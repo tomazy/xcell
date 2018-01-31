@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>xcell: pizza</title>
+  <style>
+    :root {
+      --black: rgba(0, 0, 0, .9);
+      --light-gray: rgba(0, 0, 0, .1)
+    }
+
+    body, input {
+      font-family: sans-serif;
+      color: var(--black);
+    }
+
+    body {
+      padding: 1em;
+    }
+
+    input {
+      width: 5em;
+      text-align: right;
+      font-size: 1em;
+      border: none;
+      border-bottom: 1px solid var(--light-gray);
+      outline: 0;
+      transition: all .3s cubic-bezier(.645,.045,.355, 1);
+    }
+
+    input:focus {
+      border-bottom: 1px solid var(--black);
+    }
+
+    table {
+      border-collapse: separate;
+      border-spacing: .25em;
+      max-width: 30em;
+      font-size: 1em;
+      border-bottom: 3px double var(--black);
+    }
+
+    table td {
+      text-align: right;
+    }
+
+    div {
+      padding: 4px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>the real price of a pizza</h1>
+  <p><i><small>&hellip; in a canadian restaurant.</small></i></p>
+  <table>
+    <tr>
+      <td><label for="NET">menu price ($):</label></td>
+      <td><input id="NET" type="number" autofocus></td>
+    </tr>
+    <tr>
+      <td><label for="TAX_PERCENT">tax (%):</label></td>
+      <td><input id="TAX_PERCENT" type="number"></td>
+      <td><strong id="TAX"></strong></td>
+    </tr>
+    <tr>
+      <td><label for="TIP_PERCENT">tip (%):</label></td>
+      <td><input id="TIP_PERCENT" type="number"></td>
+      <td><strong id="TIP"></strong></td>
+    </tr>
+    <tr style="font-size: 1.4em">
+      <td><strong>total:</strong></td>
+      <td colspan="2" style="text-align: left"><strong id="TOTAL"></strong></td>
+    </tr>
+  </table>
+  <div>
+    <small>
+      <i>about <b id="EXTRA">&hellip;</b>% more then the menu price</i>
+    </small>
+  </div>
+<script type="text/javascript" src="bundle.js"></script></body>
+</html>
