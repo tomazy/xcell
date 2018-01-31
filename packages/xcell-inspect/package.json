@@ -51,8 +51,8 @@
   "scripts": {
     "clean": "rm -fr dist/*",
     "prebuild": "npm run clean",
-    "build": "webpack -p",
-    "build:debug": "webpack -d",
+    "build": "webpack -p --progress",
+    "build:debug": "webpack -d --progress",
     "test": "jest",
     "test:watch": "npm run test -- --watch"
   }

@@ -2,13 +2,13 @@
 
 Tiny library for building reactive spreadsheet-like calculations in JavaScript.
 
-## installation
+## Installation
 
 ```bash
 npm install xcell
 ```
 
-## usage (node)
+## Usage (node)
 
 ```javascript
 const assert = require('assert')
@@ -31,7 +31,7 @@ A `Cell` is an `EventEmitter`:
 $c.on('change', ({ value }) => console.log(value))
 ```
 
-## usage (browser)
+## Usage (browser)
 
 ```html
 <script src="https://unpkg.com/xcell@latest/dist/xcell-umd.js"></script>
@@ -52,6 +52,6 @@ $c.on('change', ({ value }) => console.log(value))
 </script>
 ```
 
-## license
+## License
 
 MIT

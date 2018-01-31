@@ -1,7 +1,7 @@
+import yo from 'yo-yo'
+import inspect from 'xcell-inspect'
 import { spreadsheet } from './spreadsheet'
 import { Sheet } from './sheet'
-import { inspect } from 'xcell-inspect'
-import yo from 'yo-yo'
 import { functions } from './functions'
 
 const sheet = new Sheet()

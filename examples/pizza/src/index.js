@@ -1,5 +1,5 @@
 import xcell, { Cell } from 'xcell'
-import { inspect } from 'xcell-inspect'
+import inspect from 'xcell-inspect'
 
 /* 1. create the store */
 function createStore({ net, taxPercent, tipPercent }) {

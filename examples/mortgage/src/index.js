@@ -2,7 +2,7 @@ import { createStore } from './mortgage';
 import yo from 'yo-yo';
 import formatDate from 'date-fns/format'
 import parseDate from 'date-fns/parse'
-import { inspect } from 'xcell-inspect';
+import inspect from 'xcell-inspect';
 import { Cell } from 'xcell';
 
 const store = createStore({

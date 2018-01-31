@@ -29,7 +29,7 @@ const defaults: Options = {
   zoom: 1.0,
 };
 
-export function inspect(cells: Cell[], options: Options = defaults) {
+export default function inspect(cells: Cell[], options: Options = defaults) {
   const debouncedRefreshCurrentCells = debounce(refreshCurrentCells, 100, { maxWait: 1000 });
 
   const $zoom = xcell(options.zoom || 1.0);

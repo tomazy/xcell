@@ -1,3 +1,7 @@
+path = require('path')
+
+const distDir = path.join(__dirname, 'dist')
+
 const rules = [{
   test: /\.worker\./,
   use: {
@@ -36,10 +40,10 @@ const defaultConfig = {
 module.exports = [
   Object.assign({}, defaultConfig, {
     output: {
-      library: 'xcellGraph',
+      library: 'xcellInspect',
       libraryTarget: 'umd',
-      filename: 'xcell-graph-umd.js',
-      path: __dirname + '/dist',
+      filename: 'xcell-inspect-umd.js',
+      path: distDir,
     },
   }),
 
@@ -47,7 +51,7 @@ module.exports = [
     output: {
       filename: 'index.js',
       libraryTarget: 'commonjs2',
-      path: __dirname + '/dist',
+      path: distDir,
     },
   }),
 ]
