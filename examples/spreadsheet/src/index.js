@@ -58,5 +58,3 @@ document.body.appendChild(inspector.element)
 sheet.on('update', () => {
   inspector.update(sheet.getCells())
 })
-
-window.sheet = sheet

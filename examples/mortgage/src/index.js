@@ -217,6 +217,7 @@ document.body.appendChild(
     {
       renderGraph: false,
       renderDOT: true,
+      hidden: true,
     }
   ).element
 )
