@@ -8,34 +8,32 @@ export interface Options {
   deps?: Cell[];
   formula?: Formula;
   equalFunction?: EqualFunction;
+  name?: string; // for inspection
 }
 
 export class Cell extends EventEmitter {
   private static nextId = 1;
 
-  /**
-   * for debugging purposes
-   */
-  public name: string;
+  public name?: string;
 
   private _dependencies: Cell[] = [];
   private _dependents: Cell[] = [];
   private _formula?: Formula;
   private _value: any;
   private _id: number;
-  private _updating = false;
+  private _updatingWithoutDependents = false;
   private _disposing = false;
   private _disposed = false;
   private _equalFunction?: EqualFunction;
 
   constructor(options: Options) {
     super();
-    const { value, formula, deps = [], equalFunction } = options;
+    const { value, formula, deps = [], equalFunction, name } = options;
     this._id = Cell.nextId++;
+    this.name = name;
     this._value = value;
     this._formula = formula;
     this._equalFunction = equalFunction;
-
     this.dependencies = deps;
   }
 
@@ -44,6 +42,11 @@ export class Cell extends EventEmitter {
     this.dependencies = [];
     this.removeAllListeners('change');
     this._disposed = true;
+  }
+
+  public named(name: string) {
+    this.name = name;
+    return this;
   }
 
   public get value() {
@@ -61,7 +64,7 @@ export class Cell extends EventEmitter {
     const prev = this._value;
     this._value = v;
     this.emit('change', this, prev);
-    if (!this._updating) {
+    if (!this._updatingWithoutDependents) {
       this.updateDependents();
     }
   }
@@ -89,12 +92,14 @@ export class Cell extends EventEmitter {
       d.addDependent(this);
     }
 
-    if (this._formula) {
-      this.update();
-    }
+    this.update();
   }
 
-  get disposed() {
+  public get formula() {
+    return this._formula;
+  }
+
+  public get disposed() {
     return this._disposed;
   }
 
@@ -108,10 +113,16 @@ export class Cell extends EventEmitter {
 
   private update() {
     if (!this._formula || this._disposing || this._disposed) return;
-    this._updating = true;
     const args = this._dependencies.map(d => d.value);
     this.value = this._formula.apply(this, args);
-    this._updating = false;
+  }
+
+  private updateWithoutDependents() {
+    this._updatingWithoutDependents = true;
+
+    this.update();
+
+    this._updatingWithoutDependents = false;
   }
 
   private updateDependents() {
@@ -142,7 +153,7 @@ export class Cell extends EventEmitter {
 
     let l = toUpdate.length;
     while (l--) {
-      toUpdate[l].update();
+      toUpdate[l].updateWithoutDependents();
     }
   }
 }

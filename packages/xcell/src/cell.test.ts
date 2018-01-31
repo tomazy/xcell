@@ -47,7 +47,7 @@ test('glitch in diamond', () => {
   const $a = createCell(1);
   const $b = createCell([$a], a => a + 1);
   const $c = createCell([$a], a => a + 1);
-  const $d = createCell([$b, $c], formula);
+  createCell([$b, $c], formula);
 
   expect(formula).toHaveBeenCalledTimes(1);
   formula.mockReset();
@@ -86,6 +86,40 @@ test('dynamic cell emit change events', () => {
   expect(handler).toHaveBeenCalledWith($c, 3);
 });
 
+test('dynamic dependencies (range)', () => {
+  const $a1 = createCell(1);
+  const $a2 = createCell(1);
+
+  const $b1 = createCell(10);
+  const $b2 = createCell(10);
+
+  const $all = createCell({
+    $a1,
+    $a2,
+    $b1,
+    $b2,
+  });
+
+  // select only cells starting with "$a"
+  const $rangeDeps = createCell([$all], (o) => (
+    Object.keys(o)
+      .filter(k => k.slice(0, 2) === '$a')
+      .map(k => o[k])
+  ));
+
+  const $range = createCell($rangeDeps.value, (...args) => args);
+  $rangeDeps.on('change', ({ value }) => {
+    // we have to explicitly update the dependencies of the range
+    $range.dependencies = value;
+  });
+
+  const $sum = createCell([$range], range => sum(...range));
+  expect($sum.value).toBe(1 + 1);
+
+  $all.value = {...$all.value, $a3: createCell(1000) };
+  expect($sum.value).toBe(1 + 1 + 1000);
+});
+
 test('replacing dependencies', () => {
   const $a = createCell(1);
   const $b = createCell(2);
@@ -101,6 +135,9 @@ test('replacing dependencies', () => {
   $sum.dependencies = [$c, $d];
   expect($sum.value).toBe(3 + 4);
   expect(handler).toHaveBeenCalledTimes(1);
+
+  $c.value = 33;
+  expect($sum.value).toBe(33 + 4);
 });
 
 test('disposing cells', () => {

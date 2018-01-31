@@ -60,7 +60,7 @@ export function renderDotGraph(options: Options): HTMLElement {
   `;
 
   function renderEdge(edge: DotEdge) {
-    const { points, label, color} = edge;
+    const { points } = edge;
     const [p0, ...bSpline] = points;
     const d = [moveTo(p0), bezierTo(...bSpline)].join(' ');
     return yo`

@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>xcell: spreadsheet</title>
+  <style>
+    :root {
+      --black: rgba(0, 0, 0, 0.9);
+    }
+    body {
+      color: var(--black);
+      font-family: sans-serif;
+      padding: 1em;
+    }
+
+    table.spreadsheet {
+      border-collapse: collapse;
+      margin-bottom: 1em;
+    }
+
+    table.spreadsheet th {
+      background: #ddd;
+      border: 1px solid #ccc;
+      font-weight: normal;
+    }
+
+    table.spreadsheet td {
+      padding: 0;
+      border: 1px solid #ccc;
+    }
+
+    table.spreadsheet td:first-child {
+      background: #ddd;
+      text-align: center;
+      padding: 0 .5em;
+    }
+
+    table.spreadsheet td input {
+      border: 0;
+      width: 140px;
+      font-size: 14px;
+      padding: 2px;
+    }
+
+    table.spreadsheet td input:hover {
+      background: #eee;
+    }
+
+    table.spreadsheet td input:focus {
+      background: aliceblue;
+    }
+  </style>
+</head>
+<body>
+</body>
+</html>

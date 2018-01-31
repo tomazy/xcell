@@ -43,11 +43,12 @@
     ]
   },
   "scripts": {
-    "clean": "rm -fr dist/*",
+    "clean": "rm -fr dist/* debug",
     "prebuild": "npm run clean",
     "build": "npm-run-all -p build:node build:umd",
     "build:node": "tsc",
     "build:umd": "webpack -p",
+    "build:for-debug": "tsc -p ./tsconfig.debug.json --pretty",
     "test": "jest",
     "test:watch": "npm run test -- --watch"
   }

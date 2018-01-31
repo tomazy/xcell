@@ -91,4 +91,5 @@ function extractCellsFromStore(store) {
 
 // connect the debug graph
 autoNameCellsForGraph(store);
-document.body.appendChild(inspect(extractCellsFromStore(store), { renderGraph: true, renderDOT: false }))
+const inspector = inspect(extractCellsFromStore(store), { renderGraph: true, renderDOT: false })
+document.body.appendChild(inspector.element)

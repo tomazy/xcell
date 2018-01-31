@@ -1,15 +1,14 @@
 {
   "license": "MIT",
   "private": true,
-  "devDependencies": {
-  },
-  "dependencies": {
-  },
+  "devDependencies": {},
+  "dependencies": {},
   "workspaces": [
     "packages/*",
     "docs/*",
     "examples/*"
   ],
   "scripts": {
+    "xcell:build:for-debug": "cd packages/xcell && npm run build:for-debug"
   }
 }

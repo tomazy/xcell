@@ -6,6 +6,7 @@
     "lightgrey",
     "morhpdom",
     "readonly",
+    "shallowequal",
     "xcell"
   ]
 }

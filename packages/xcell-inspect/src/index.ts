@@ -5,7 +5,7 @@ import * as yo from 'yo-yo';
 
 import cell2node from './cell-to-dot-node';
 import createDOT from './create-dot';
-import { diffNodes, DotGraph } from './dot-layout';
+import { diffNodes } from './dot-layout';
 import { renderDotGraph } from './render-dot-graph';
 import { renderRoot } from './render-root';
 import { workerFunctions } from './worker-functions';
@@ -18,14 +18,23 @@ const workerFns = workerFunctions();
 export interface Options {
   renderGraph: boolean;
   renderDOT: boolean;
+  hidden: boolean;
+  zoom: number;
 }
 
-export function inspect(cells: Cell[], options: Options = { renderGraph: true, renderDOT: true }) {
+const defaults: Options = {
+  renderGraph: true,
+  renderDOT: true,
+  hidden: false,
+  zoom: 1.0,
+};
+
+export function inspect(cells: Cell[], options: Options = defaults) {
   const debouncedRefreshCurrentCells = debounce(refreshCurrentCells, 100, { maxWait: 1000 });
 
-  const $zoom = xcell(1.0);
+  const $zoom = xcell(options.zoom || 1.0);
   const $loading = xcell(false);
-  const $hidden = xcell(false);
+  const $hidden = xcell(Boolean(options.hidden));
 
   $hidden.on('change', ({ value }) => {
     if (!value) refreshCurrentCells();
@@ -144,7 +153,13 @@ export function inspect(cells: Cell[], options: Options = { renderGraph: true, r
     yo.update(root, value);
   });
 
-  return root;
+  return {
+    element: root,
+    update(newCells: Cell[]) {
+      cells = newCells;
+      debouncedRefreshCurrentCells();
+    },
+  };
 
   function cellChanged(cell: Cell) {
     debug('cellChanged', cell.name || '#' + cell.id);

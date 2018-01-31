@@ -168,7 +168,7 @@ function installments($installments) {
 function app() {
   return yo`
     <div>
-      <h1>Mortgage calculator</h1>
+      <h1>mortgage calculator</h1>
       ${form()}
       <hr />
       ${installments(store.$installments)}
@@ -218,5 +218,5 @@ document.body.appendChild(
       renderGraph: false,
       renderDOT: true,
     }
-  )
+  ).element
 )

@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.common.json",
+  "compilerOptions": {
+    "outDir": "debug",
+    "removeComments": false,
+    "sourceMap": true,
+    "sourceRoot": "./src",
+    "target": "es2016",
+    "types": [
+      "node",
+      "jest"
+    ]
+  },
+  "typeRoots": [
+      "../../node_modules/@types"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
