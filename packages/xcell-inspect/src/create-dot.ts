@@ -5,35 +5,33 @@ export interface Node {
   dependents: ID[];
 }
 
-function defineNode(node: Node) {
+function visitNode(node: Node, nodeDefs: string[], edgeDefs: string[]): void {
   const { id, label } = node;
-  return `  ${id}[label=${label}]`;
-}
+  nodeDefs.push(`  ${id}[label=${label}]`);
 
-function defineEdges(node: Node) {
-  if (node.dependents.length === 0) {
-    return null;
-  }
+  if (node.dependents.length === 0) return;
 
   const ids = node.dependents.join(',');
-  return `  ${node.id} -> ${ids};`;
+  edgeDefs.push(`  ${node.id} -> ${ids};`);
 }
 
-export default function createDOT(cells: Node[]): string {
-  return (`
-digraph {
-${
-   cells
-    .map(defineNode)
-    .join('\n')
-}
-${
-  cells
-    .map(defineEdges)
-    .filter(s => !!s)
-    .join('\n')
-}
-}
-  `.trim()
-);
+export default function createDOT(nodes: Node[]): string {
+  const nodeDefs: string[] = [];
+  const edgeDefs: string[] = [];
+  const seen = {};
+
+  for (const node of nodes) {
+    if (seen[node.id]) continue;
+
+    seen[node.id] = true;
+    visitNode(node, nodeDefs, edgeDefs);
+  }
+
+  const content = [...nodeDefs, ...edgeDefs].join('\n');
+
+  return [
+    'digraph {',
+    content,
+    '}',
+  ].join('\n');
 }
