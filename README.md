@@ -1,1 +1,5 @@
-packages/xcell/README.md
+# xcell monorepo
+
+Packages:
+* See [xcell](packages/xcell)
+* See [xcell-inspect](packages/xcell-inspect)
