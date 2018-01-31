@@ -6,7 +6,8 @@ Packages:
 * [xcell](packages/xcell)
 * [xcell-inspect](packages/xcell-inspect)
 
-Examples:
-* [pizza](examples/pizza)
-* [mortgage](examples/mortgage)
-* [spreadsheet](examples/spreadsheet)
+Check the [`examples`](examples) folder to see how it can be used.
+
+The examples are hosted here: https://tomazy.github.io/xcell/
+
+
