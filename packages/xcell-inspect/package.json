@@ -1,6 +1,6 @@
 {
   "name": "xcell-inspect",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "lodash.debounce": "4.0.8",
     "lodash.isequal": "4.5.0",
     "viz.js": "1.8.0",
-    "xcell": "^0.0.6",
+    "xcell": "^0.0.7",
     "yo-yo": "1.4.1"
   },
   "devDependencies": {
