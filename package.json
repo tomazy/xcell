@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "xcell:build:for-debug": "cd packages/xcell && npm run build:for-debug",
-    "lerna": "lerna",
-    "publish": "lerna publish"
+    "publish": "lerna publish",
+    "build": "lerna run build"
   }
 }
