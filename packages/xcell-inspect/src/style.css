@@ -3,20 +3,21 @@
 }
 
 .xcell-inspect {
-  position: fixed;
-  top: 8px;
-  right: 8px;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
   background-color: rgb(245, 245, 245);
-  max-width: 640px;
-  max-height: 720px;
-  overflow: auto;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+  font-family: sans-serif;
   font-size: 13px;
+  max-height: 720px;
+  max-width: 640px;
+  overflow: auto;
+  position: fixed;
+  right: 8px;
+  top: 8px;
 }
 
 .xcell-inspect div {
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 .xcell-inspect .text-right {
@@ -30,9 +31,9 @@
 
 .xcell-inspect .xcell-inspect-error {
   color: red;
+  overflow: auto;
   padding: 1em;
   white-space: pre;
-  overflow: auto;
 }
 
 .xcell-inspect .xcell-inspect-wrapper {
@@ -45,14 +46,14 @@
 }
 
 .xcell-inspect svg {
-  display: block;
   border: 1px solid var(--light-gray);
+  display: block;
 }
 
 .xcell-inspect .nodes ellipse {
-  stroke: #ccc;
-  stroke-width: .02px;
   fill: white;
+  stroke-width: .02px;
+  stroke: #ccc;
   transition: fill 2s ease;
 }
 
@@ -67,9 +68,9 @@
 }
 
 .xcell-inspect .nodes rect {
-  stroke: #333;
-  stroke-width: .01px;
   fill: none;
+  stroke-width: .01px;
+  stroke: #333;
 }
 
 .xcell-inspect .nodes text {
@@ -78,9 +79,9 @@
 }
 
 .xcell-inspect .edges path {
+  fill: none;
   stroke: #ccc;
   stroke-width: .02px;
-  fill: none;
 }
 
 .xcell-inspect .xcell-inspect-wrapper,
@@ -91,10 +92,10 @@
 
 .xcell-inspect .xcell-inspect-dot pre {
   background-color: white;
+  border: 1px solid var(--light-gray);
+  margin-bottom: 4px;
+  margin-top: 4px;
   max-height: 300px;
   max-width: 100%;
   overflow: auto;
-  margin-top: 4px;
-  margin-bottom: 4px;
-  border: 1px solid var(--light-gray);
 }
