@@ -1,14 +1,17 @@
 {
   "license": "MIT",
   "private": true,
-  "devDependencies": {},
-  "dependencies": {},
+  "devDependencies": {
+    "lerna": "^2.8.0"
+  },
   "workspaces": [
     "packages/*",
     "docs/*",
     "examples/*"
   ],
   "scripts": {
-    "xcell:build:for-debug": "cd packages/xcell && npm run build:for-debug"
+    "xcell:build:for-debug": "cd packages/xcell && npm run build:for-debug",
+    "lerna": "lerna",
+    "publish": "lerna publish"
   }
 }
