@@ -94,6 +94,6 @@ autoNameCellsForGraph(store);
 const inspector = inspect(extractCellsFromStore(store), {
   renderGraph: true,
   renderDOT: false,
-  hidden: true,
+  hidden: (window.innerWidth < 900) || (window.innerHeight < 700)
  })
 document.body.appendChild(inspector.element)

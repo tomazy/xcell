@@ -51,7 +51,7 @@ document.body.appendChild(app)
 const inspector = inspect(sheet.getCells(), {
   renderDOT: false,
   renderGraph: true,
-  hidden: true
+  hidden: (window.innerWidth < 900) || (window.innerHeight < 700)
 })
 document.body.appendChild(inspector.element)
 
