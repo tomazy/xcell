@@ -124,3 +124,7 @@ test('cell + a value', () => {
   expect(result.ranges).toEqual([])
   expect(result.code).toEqual('(A1+100)')
 })
+
+test('()', () => {
+  expect(compile('(3+4)*5').code).toEqual('((3+4)*5)')
+})

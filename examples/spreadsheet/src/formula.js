@@ -96,6 +96,9 @@ function compileAst (ctx, node) {
           return node.value
       }
 
+    case 'group':
+      return compileAst(ctx, node.exp)
+
     case 'function':
       const fnName = node.name.toUpperCase()
       const args = node.args.map(n => compileAst(ctx, n))
