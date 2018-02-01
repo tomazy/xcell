@@ -57,7 +57,7 @@ When we create our "cells" we tell them to either be independent:
 var b = xcell(1)
 ```
 
-or to depend on other cells and update it's value when necessary using
+or to depend on other cells and update its value when necessary using
 a provided function:
 
 ```javascript

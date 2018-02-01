@@ -46,7 +46,7 @@ alert(a.value) <span class="hljs-comment">// a is 44 \o/</span></code></pre>
 updated value, just like a spreadsheet cell.</p>
 <p>When we create our "cells" we tell them to either be independent:</p>
 <pre><code class="hljs language-javascript"><span class="hljs-keyword">var</span> b = xcell(<span class="hljs-number">1</span>)</code></pre>
-<p>or to depend on other cells and update it's value when necessary using
+<p>or to depend on other cells and update its value when necessary using
 a provided function:</p>
 <pre><code class="hljs language-javascript"><span class="hljs-keyword">var</span> a = xcell([b, c], add)</code></pre>
 <p>The cells emit <code>change</code> even whenever they change, so we can observe
