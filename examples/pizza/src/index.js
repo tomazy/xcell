@@ -2,17 +2,17 @@ import xcell, { Cell } from 'xcell'
 import inspect from 'xcell-inspect'
 
 /* 1. create the store */
-function createStore({ net, taxPercent, tipPercent }) {
-  const $net = xcell(15)
-  const $taxPercent = xcell(13)
-  const $tipPercent = xcell(15)
+function createStore({ menuPrice, taxPercent, tipPercent }) {
+  const $menuPrice = xcell(menuPrice)
+  const $taxPercent = xcell(taxPercent)
+  const $tipPercent = xcell(tipPercent)
   const $tax = xcell(
-    [$net, $taxPercent],
-    (net, taxPercent) => net * taxPercent / 100,
+    [$menuPrice, $taxPercent],
+    (menuPrice, taxPercent) => menuPrice * taxPercent / 100,
   )
   const $gross = xcell(
-    [$net, $tax],
-    (net, tax) => net + tax,
+    [$menuPrice, $tax],
+    (menuPrice, tax) => menuPrice + tax,
   )
   const $tip = xcell(
     [$gross, $tipPercent],
@@ -23,14 +23,14 @@ function createStore({ net, taxPercent, tipPercent }) {
     (gross, tip) => gross + tip,
   )
   const $extraPercent = xcell(
-    [$net, $total],
-    (net, total) => (total > net)
-      ? Math.round(((total - net) / net) * 100)
+    [$menuPrice, $total],
+    (menuPrice, total) => (total > menuPrice)
+      ? Math.round(((total - menuPrice) / menuPrice) * 100)
       : 0
   )
 
   return {
-    $net,
+    $menuPrice,
     $taxPercent,
     $tipPercent,
     $tax,
@@ -40,10 +40,10 @@ function createStore({ net, taxPercent, tipPercent }) {
     $extraPercent,
   }
 }
-const store = createStore({ net: 15, taxPercent: 13, tipPercent: 15 });
+const store = createStore({ menuPrice: 15, taxPercent: 13, tipPercent: 15 });
 
 /* 2. Connect the inputs and outputs */
-connectInput(NET, store.$net)
+connectInput(NET, store.$menuPrice)
 connectInput(TAX_PERCENT, store.$taxPercent)
 connectInput(TIP_PERCENT, store.$tipPercent)
 

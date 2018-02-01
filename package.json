@@ -2,7 +2,11 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "lerna": "^2.8.0"
+    "lerna": "^2.8.0",
+    "remark-cli": "5.0.0",
+    "remark-highlight.js": "5.0.0",
+    "remark-html": "7.0.0",
+    "remark-preset-lint-markdown-style-guide": "2.1.1"
   },
   "workspaces": [
     "packages/*",

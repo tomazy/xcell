@@ -4,36 +4,63 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>xcell</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 1em;
-      color: rgba(0, 0, 0, .9);
-    }
-    main {
-      max-width: 35em;
-      margin: auto;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main>
+<h1>xcell</h1>
+<p><a href="https://www.npmjs.com/package/xcell">xcell</a> is a tiny, open source (MIT)
+library for building reactive, spreadsheet-like calculations in JavaScript.</p>
+<p>Spreadsheets are cool. If we say that <strong>A1</strong> is the sum of <strong>B1</strong> and <strong>C1</strong>,
+the spreadsheet will automatically update whenever we change the dependent
+cells.</p>
+<p><img src="spreadsheet.png" alt="spreadsheet"></p>
+<p>This usually doesn't happen in our programs.</p>
+<p>For example in JavaScript:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">var</span> b = <span class="hljs-number">1</span>, c = <span class="hljs-number">2</span>
 
-    <h1>xcell</h1>
-    <p>
-      <a href="https://www.npmjs.com/package/xcell">xcell</a> is a tiny, open source (MIT) library for building reactive spreadsheet-like calculations in JavaScript.
-    </p>
-    <p>
-      Here are a few examples of its usage:
-    </p>
-    <ul>
-      <li><a href="examples/pizza">the real price of a pizza</a></li>
-      <li><a href="examples/mortgage">mortgage calculator</a></li>
-      <li><a href="examples/spreadsheet">spreadsheet demo</a></li>
-    </ul>
-    <p>
-      The source code is at <a href="https://github.com/tomazy/xcell">github</a>.
-    </p>
+<span class="hljs-keyword">var</span> a = b + c <span class="hljs-comment">// a is 3 now</span>
+
+b = <span class="hljs-number">42</span>
+
+alert(<span class="hljs-string">"a is now:  "</span> + a) <span class="hljs-comment">// it is still 3 :(</span></code></pre>
+<p>our variable <strong>a</strong> does not automatically change if we
+change <strong>b</strong>. It will be equal to <strong>3</strong> until we <em>imperatively</em>
+change it something else.</p>
+<p><strong>xcell</strong> allows us to write programs that work like spreadsheets.</p>
+<p>Here is how:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params">x, y</span>) </span>{
+  <span class="hljs-keyword">return</span> x + y
+}
+
+<span class="hljs-keyword">var</span> b = xcell(<span class="hljs-number">1</span>), c = xcell(<span class="hljs-number">2</span>)
+
+<span class="hljs-keyword">var</span> a = xcell([b, c], add)
+
+alert(a.value) <span class="hljs-comment">// a is 3</span>
+
+b.value = <span class="hljs-number">42</span>
+
+alert(a.value) <span class="hljs-comment">// a is 44 \o/</span></code></pre>
+<p><code>xcell</code> is a function that returns an object that holds always
+updated value, just like a spreadsheet cell.</p>
+<p>When we create our "cells" we tell them to either be independent:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">var</span> b = xcell(<span class="hljs-number">1</span>)</code></pre>
+<p>or to depend on other cells and update it's value when necessary using
+a provided function:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">var</span> a = xcell([b, c], add)</code></pre>
+<p>The cells emit <code>change</code> even whenever they change, so we can observe
+them and update our UI:</p>
+<pre><code class="hljs language-javascript">a.on(<span class="hljs-string">'change'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleChange</span>(<span class="hljs-params">sender</span>) </span>{
+  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"my-cell"</span>).value = sender.value
+})</code></pre>
+<p>Here are a few examples of how <strong>xcell</strong> can be used:</p>
+<ul>
+<li><a href="examples/pizza">the real price of a pizza</a></li>
+<li><a href="examples/mortgage">mortgage calculator</a></li>
+<li><a href="examples/spreadsheet">spreadsheet demo</a></li>
+</ul>
+<p>The source code is on <a href="https://github.com/tomazy/xcell">github</a>.</p>
   </main>
 </body>
 </html>
