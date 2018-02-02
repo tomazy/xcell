@@ -7,7 +7,7 @@ build:
 
 docs: docs/index.html docs-examples
 
-docs/index.html: docs/index.md
+docs/index.html: docs-src/index.md
 	.scripts/docs-index.sh > docs/index.html
 
 docs-examples:

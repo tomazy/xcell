@@ -3,9 +3,27 @@ body {
   padding: 1em;
   color: rgba(0, 0, 0, .9);
 }
+
 main {
-  max-width: 35em;
+  font-size: 1rem;
   margin: auto;
+  max-width: 34em;
+}
+
+main h1 {
+  font-size: 3rem;
+}
+
+main p {
+  line-height: 1.5;
+}
+
+main ul {
+  line-height: 1.5;
+}
+
+main img {
+  max-width: 100%;
 }
 
 /*

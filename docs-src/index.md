@@ -1,9 +1,9 @@
 # xcell
 
-[xcell](https://www.npmjs.com/package/xcell) is a tiny, open source (MIT)
+[xcell](https://github.com/tomazy/xcell) is a tiny, open source (MIT)
 library for building reactive, spreadsheet-like calculations in JavaScript.
 
-Spreadsheets are cool. If we say that **A1** is the sum of **B1** and **C1**,
+Spreadsheets are cool—if we say that **A1** is the sum of **B1** and **C1**,
 the spreadsheet will automatically update whenever we change the dependent
 cells.
 
