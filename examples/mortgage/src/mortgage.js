@@ -8,6 +8,7 @@ import {
   minus,
   plus,
   sum,
+  identity,
 } from "./utils";
 
 class Installment {
@@ -47,13 +48,20 @@ export function createStore({ loanAmount, rate, loanDate, loanTermYears = 30 }) 
             ? xcell([prev.$paid, prev.$principal], plus)
             : xcell(0)
           const $debt = xcell([$loanAmount, $paid], minus)
-          const $amount = xcell([$debt, $rate], (debt, rate) => getMonthlyPayment(debt, remaining, rate))
           const $interestDays = xcell([
             $date,
             prev ? prev.$date : $loanDate
           ], differenceInDays)
           const $interest = xcell([$debt, $rate, $interestDays], getInstallmentInterest)
-          const $principal = xcell([$amount, $interest], minus)
+
+          let $principal, $amount;
+          if (i === loanTermMonths - 1) {
+            $principal = xcell([$debt], identity);
+            $amount = xcell([$principal, $interest], plus);
+          } else {
+            $amount = xcell([$debt, $rate], (debt, rate) => getMonthlyPayment(debt, remaining, rate))
+            $principal = xcell([$amount, $interest], minus)
+          }
 
           const installment = new Installment()
           Object.assign(installment, {

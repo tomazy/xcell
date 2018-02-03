@@ -44,3 +44,7 @@ export function plus(a, b) {
 export function sum(...args) {
   return args.reduce((acc, e) => acc + e, 0)
 }
+
+export function identity(x) {
+  return x;
+}
