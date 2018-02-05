@@ -8,7 +8,7 @@ build:
 docs: docs/index.html docs-examples
 
 docs/index.html: docs-src/index.md
-	.scripts/docs-index.sh > docs/index.html
+	.scripts/docs-index.sh | .scripts/docs-inject-ga.sh > docs/index.html
 
 docs-examples:
 	.scripts/docs-examples.sh
