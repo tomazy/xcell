@@ -168,7 +168,12 @@ function installments($installments) {
 function app() {
   return yo`
     <div>
-      <h1>mortgage calculator</h1>
+      <h1>
+        mortgage calculator
+        <a style="font-size:1rem;font-weight:normal" href="https://github.com/tomazy/xcell/tree/master/examples/mortgage">source code</a>
+      </h1>
+      <div>
+      </div>
       ${form()}
       <hr />
       ${installments(store.$installments)}

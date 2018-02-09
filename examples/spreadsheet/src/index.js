@@ -44,6 +44,9 @@ const app = yo`
       </ul>
       </p>
     </div>
+    <div>
+      <a href="https://github.com/tomazy/xcell/tree/master/examples/spreadsheet">source code</a>
+    </div>
   </div>
 `
 document.body.appendChild(app)
