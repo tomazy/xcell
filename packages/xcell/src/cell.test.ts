@@ -93,7 +93,7 @@ test('dynamic dependencies (range)', () => {
   const $b1 = xcell(10);
   const $b2 = xcell(10);
 
-  const $all = xcell({
+  const $all = xcell<any>({
     $a1,
     $a2,
     $b1,

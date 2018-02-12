@@ -5,7 +5,7 @@ import * as yo from 'yo-yo';
 
 import cell2node from './cell-to-dot-node';
 import createDOT from './create-dot';
-import { diffNodes } from './dot-layout';
+import { diffNodes, DotGraph } from './dot-layout';
 import { renderDotGraph } from './render-dot-graph';
 import { renderRoot } from './render-root';
 import { workerFunctions } from './worker-functions';
@@ -29,6 +29,10 @@ const defaults: Options = {
   zoom: 1.0,
 };
 
+interface GraphInTime {
+  graph: DotGraph | null;
+  time: number;
+}
 export function inspect(cells: Cell[], options: Options = defaults) {
   const debouncedRefreshCurrentCells = debounce(refreshCurrentCells, 100, { maxWait: 1000 });
 
@@ -62,7 +66,7 @@ export function inspect(cells: Cell[], options: Options = defaults) {
     debug('digraph', value);
   });
 
-  const $graphInTime = xcell({ graph: null, time: 0 });
+  const $graphInTime = xcell<GraphInTime>({ graph: null, time: 0 });
 
   const $graph = xcell([$graphInTime], ({ graph }) => graph);
 
@@ -113,7 +117,7 @@ export function inspect(cells: Cell[], options: Options = defaults) {
     }
   });
 
-  const $graphHtml = xcell(null);
+  const $graphHtml = xcell<HTMLElement|null>(null);
   xcell(
       [$graph, $zoom, $hidden, $diff],
       ( graph,  zoom,  hidden,  diff) => {

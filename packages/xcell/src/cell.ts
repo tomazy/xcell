@@ -1,32 +1,32 @@
 import { EventEmitter } from 'events';
 
-export type Formula = (...args: any[]) => any;
+export type Formula<T> = (...args: any[]) => T;
 export type EqualFunction = (a: any, b: any) => boolean;
 
-export interface Options {
+export interface Options<T> {
   value?: any;
   deps?: Cell[];
-  formula?: Formula;
+  formula?: Formula<T>;
   equalFunction?: EqualFunction;
   name?: string; // for inspection
 }
 
-export class Cell extends EventEmitter {
+export class Cell<T = any> extends EventEmitter {
   private static nextId = 1;
 
   public name?: string;
 
   private _dependencies: Cell[] = [];
   private _dependents: Cell[] = [];
-  private _formula?: Formula;
-  private _value: any;
+  private _formula?: Formula<T>;
+  private _value: T;
   private _id: number;
   private _updatingWithoutDependents = false;
   private _disposing = false;
   private _disposed = false;
   private _equalFunction?: EqualFunction;
 
-  constructor(options: Options) {
+  constructor(options: Options<T>) {
     super();
     const { value, formula, deps = [], equalFunction, name } = options;
     this._id = Cell.nextId++;
@@ -49,11 +49,11 @@ export class Cell extends EventEmitter {
     return this;
   }
 
-  public get value() {
+  public get value(): T {
     return this._value;
   }
 
-  public set value(v) {
+  public set value(v: T) {
     if (this._equalFunction) {
       if (this._equalFunction(this._value, v)) {
         return;
@@ -158,9 +158,14 @@ export class Cell extends EventEmitter {
   }
 }
 
-export function createCell(value: any): Cell;
-export function createCell(deps: Cell[], formula: Formula): Cell;
-export function createCell(...args: any[]): Cell {
+export function createCell<T>(value: T): Cell<T>;
+export function createCell<T, U1>(deps: [Cell<U1>], formula: (v1: U1) => T): Cell<T>;
+export function createCell<T, U1, U2>(deps: [Cell<U1>, Cell<U2>], formula: (v1: U1, v2: U2) => T): Cell<T>;
+export function createCell<T, U1, U2, U3>(deps: [Cell<U1>, Cell<U2>, Cell<U3>], formula: (v1: U1, v2: U2, v3: U3) => T): Cell<T>;
+export function createCell<T, U1, U2, U3, U4>(deps: [Cell<U1>, Cell<U2>, Cell<U3>, Cell<U4>], formula: (v1: U1, v2: U2, v3: U3, v4: U4) => T): Cell<T>;
+export function createCell<T, U1, U2, U3, U4, U5>(deps: [Cell<U1>, Cell<U2>, Cell<U3>, Cell<U4>, Cell<U5>], formula: (v1: U1, v2: U2, v3: U3, v4: U4, v5: U5) => T): Cell<T>;
+export function createCell<T>(deps: Cell[], formula: Formula<T>): Cell<T>;
+export function createCell<T>(...args: any[]): Cell<T> {
   let deps, formula, value;
 
   if (args.length > 1 && typeof args[1] === 'function') {
@@ -170,5 +175,5 @@ export function createCell(...args: any[]): Cell {
     value = args[0];
   }
 
-  return new Cell({ deps, formula, value });
+  return new Cell<T>({ deps, formula, value });
 }

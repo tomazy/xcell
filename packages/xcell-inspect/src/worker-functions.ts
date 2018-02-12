@@ -1,4 +1,5 @@
 import { defer, Deferred } from './deferred';
+import { DotGraph } from './dot-layout';
 
 // tslint:disable-next-line:no-var-requires
 const debug = require('debug')('xcell-inspect:worker-functions');
@@ -43,7 +44,7 @@ export function workerFunctions() {
     return d.promise;
   }
 
-  function generateDotGraph(digraph: string) {
+  function generateDotGraph(digraph: string): Promise<DotGraph> {
     return invoke('generateDotGraph', [digraph]);
   }
 
