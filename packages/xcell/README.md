@@ -34,7 +34,7 @@ $c.on('change', ({ value }) => console.log(value))
 ## Usage (browser)
 
 ```html
-<script src="https://unpkg.com/xcell@latest/dist/xcell-umd.js"></script>
+<script src="https://unpkg.com/xcell"></script>
 <input id="A"> + <input id="B"> = <input id="C" readonly>
 <script>
   const $a = xcell(1)
