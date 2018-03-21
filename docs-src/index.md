@@ -64,7 +64,7 @@ a provided function:
 var a = xcell([b, c], add)
 ```
 
-The cells emit `change` even whenever they change, so we can observe
+The cells emit `change` event whenever they change, so we can observe
 them and update our UI:
 
 ```javascript

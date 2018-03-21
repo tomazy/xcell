@@ -5,7 +5,6 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>xcell</title>
   <link rel="stylesheet" href="style.css">
-<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-43261744-4"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -57,7 +56,7 @@ updated value, just like a spreadsheet cell.</p>
 <p>or to depend on other cells and update its value when necessary using
 a provided function:</p>
 <pre><code class="hljs language-javascript"><span class="hljs-keyword">var</span> a = xcell([b, c], add)</code></pre>
-<p>The cells emit <code>change</code> even whenever they change, so we can observe
+<p>The cells emit <code>change</code> event whenever they change, so we can observe
 them and update our UI:</p>
 <pre><code class="hljs language-javascript">a.on(<span class="hljs-string">'change'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleChange</span>(<span class="hljs-params">sender</span>) </span>{
   <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"my-cell"</span>).value = sender.value
