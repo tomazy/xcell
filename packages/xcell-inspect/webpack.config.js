@@ -1,4 +1,4 @@
-path = require('path')
+const path = require('path')
 
 const distDir = path.join(__dirname, 'dist')
 

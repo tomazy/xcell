@@ -1,9 +1,10 @@
 {
   "name": "xcell-inspect",
   "version": "0.0.8",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "license": "MIT",
+  "browser": "dist/xcell-inspect-umd.js",
   "repository": "https://github.com/tomazy/xcell/tree/master/packages/xcell-inspect",
   "author": {
     "email": "tomazy@go2.pl",
