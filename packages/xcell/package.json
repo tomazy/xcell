@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "browser": "dist/xcell-umd.js",
+  "unpkg": "dist/xcell-umd.js",
   "repository": "https://github.com/tomazy/xcell/tree/master/packages/xcell",
   "author": {
     "email": "tomazy@go2.pl",
