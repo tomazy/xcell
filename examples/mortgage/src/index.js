@@ -40,7 +40,7 @@ function input(cell, attrs = {}) {
     switch (attrs.type) {
       case 'date':
         return Boolean(v)
-          ? formatDate(v, 'YYYY-MM-DD')
+          ? defaultFormatDate(v)
           : ''
 
       case 'number':
@@ -138,7 +138,7 @@ function installments($installments) {
                     ${ii.idx + 1}
                   </td>
                   <td>
-                    ${output(ii.$date, _formatDate)}
+                    ${output(ii.$date, defaultFormatDate)}
                   </td>
                   <td class="text-right">
                     ${output(ii.$interest, formatMoney)}
@@ -158,10 +158,6 @@ function installments($installments) {
         }
       </div>
     `
-  }
-
-  function _formatDate(date) {
-    return formatDate(date, 'YYYY-MM-DD')
   }
 }
 
@@ -186,6 +182,10 @@ function formatMoney(v) {
   return Number.isFinite(v)
     ? `$${v.toFixed(2)}`
     : '?'
+}
+
+function defaultFormatDate(date) {
+  return formatDate(date, 'YYYY-MM-DD')
 }
 
 function autoNameCellsForGraph(obj, prefix = '') {

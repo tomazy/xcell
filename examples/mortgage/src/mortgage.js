@@ -31,6 +31,10 @@ export function createStore({ loanAmount, rate, loanDate, loanTermYears = 30 }) 
   const $installments = xcell(
     [$loanTermMonths, $loanDate, $loanAmount],
     ( loanTermMonths,  loanDate,  loanAmount) => {
+
+      /**
+       * @type Installment[]
+       */
       const result = []
 
       if (!loanDate || !(loanAmount > 0)) {
@@ -41,8 +45,6 @@ export function createStore({ loanAmount, rate, loanDate, loanTermYears = 30 }) 
 
       for (let i = 0; i < loanTermMonths; i++) {
         void function makeInstallment(idx) {
-          const remaining = loanTermMonths - idx;
-
           const $date = xcell([$loanDate], d => getInstallmentDate(d, idx))
           const $paid = prev
             ? xcell([prev.$paid, prev.$principal], plus)
@@ -59,7 +61,8 @@ export function createStore({ loanAmount, rate, loanDate, loanTermYears = 30 }) 
             $principal = xcell([$debt], identity);
             $amount = xcell([$principal, $interest], plus);
           } else {
-            $amount = xcell([$debt, $rate], (debt, rate) => getMonthlyPayment(debt, remaining, rate))
+            const loanTerms = loanTermMonths - idx;
+            $amount = xcell([$debt, $rate], (debt, rate) => getMonthlyPayment(debt, loanTerms, rate))
             $principal = xcell([$amount, $interest], minus)
           }
 
