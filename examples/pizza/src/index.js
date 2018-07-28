@@ -1,6 +1,9 @@
 import xcell, { Cell } from 'xcell'
 import inspect from 'xcell-inspect'
 
+import 'tachyons/css/tachyons.min.css'
+import './style.css'
+
 /* 1. create the store */
 function createStore({ menuPrice, taxPercent, tipPercent }) {
   const $menuPrice  = xcell(menuPrice)
@@ -40,6 +43,7 @@ connectInput(TIP_PERCENT, store.$tipPercent)
 
 connectOutput(TAX, store.$tax)
 connectOutput(TIP, store.$tip)
+connectOutput(GROSS, store.$gross)
 connectOutput(TOTAL, store.$total)
 
 //#region --- helpers ---
@@ -66,7 +70,7 @@ function add(x, y) {
 }
 
 function formatMoney(value) {
-  return `$${value.toFixed(2)}`
+  return value.toFixed(2)
 }
 
 function autoNameCellsForGraph(store) {

@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   entry: './src/index.js',
@@ -24,7 +25,13 @@ module.exports = {
           loader: 'babel-loader',
           options: { presets: ['es2015'] }
         },
-      },
+      }, {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
+      }
     ]
   },
 
@@ -40,6 +47,7 @@ module.exports = {
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       template: __dirname + '/index.html'
-    })
+    }),
+    new ExtractTextPlugin('styles.css'),
   ]
 }
