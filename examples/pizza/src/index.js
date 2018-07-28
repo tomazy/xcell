@@ -1,22 +1,33 @@
 import xcell, { Cell } from 'xcell'
 import inspect from 'xcell-inspect'
 
+//#region -- css --
 import 'tachyons/css/tachyons.min.css'
 import './style.css'
+//#endregion
 
-/* 1. create the cells */
+const cells = createCells({ menuPrice: 15, taxPercent: 13, tipPercent: 15 });
+
+connectInput(MENU_PRICE,  cells.$menuPrice)
+connectInput(TAX_PERCENT, cells.$taxPercent)
+connectInput(TIP_PERCENT, cells.$tipPercent)
+
+connectOutput(TAX,   cells.$tax)
+connectOutput(TIP,   cells.$tip)
+connectOutput(GROSS, cells.$gross)
+connectOutput(TOTAL, cells.$total)
+
 /**
  * Creates directional graph of the data with provided defaults.
  * @param {Object} defaults
  * @param {number} defaults.menuPrice
- * @param {number} defaults.menuPrice
  * @param {number} defaults.taxPercent
  * @param {number} defaults.tipPercent
  */
-function createCells({ menuPrice, taxPercent, tipPercent }) {
-  const $menuPrice  = xcell(menuPrice)
-  const $taxPercent = xcell(taxPercent)
-  const $tipPercent = xcell(tipPercent)
+function createCells(defaults) {
+  const $menuPrice  = xcell(defaults.menuPrice)
+  const $taxPercent = xcell(defaults.taxPercent)
+  const $tipPercent = xcell(defaults.tipPercent)
 
   const $tax = xcell(
     [$menuPrice, $taxPercent],
@@ -42,23 +53,12 @@ function createCells({ menuPrice, taxPercent, tipPercent }) {
     $total,
   }
 }
-const cells = createCells({ menuPrice: 15, taxPercent: 13, tipPercent: 15 });
-
-/* 2. Connect the inputs and outputs */
-connectInput(MENU_PRICE, cells.$menuPrice)
-connectInput(TAX_PERCENT, cells.$taxPercent)
-connectInput(TIP_PERCENT, cells.$tipPercent)
-
-connectOutput(TAX, cells.$tax)
-connectOutput(TIP, cells.$tip)
-connectOutput(GROSS, cells.$gross)
-connectOutput(TOTAL, cells.$total)
 
 //#region --- helpers ---
 /**
  * @param {Element} input
  * @param {Cell} cell
- * @param {(string) => any} parse
+ * @param {(s: string) => any} parse
  */
 function connectInput(input, cell, parse = Number) {
   input.value = cell.value
@@ -70,7 +70,7 @@ function connectInput(input, cell, parse = Number) {
 /**
  * @param {Element} output
  * @param {Cell} cell
- * @param {(any) => string} format
+ * @param {(v: any) => string} format
  */
 function connectOutput(output, cell, format = formatMoney) {
   output.textContent = format(cell.value)
