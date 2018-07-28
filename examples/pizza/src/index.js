@@ -4,8 +4,16 @@ import inspect from 'xcell-inspect'
 import 'tachyons/css/tachyons.min.css'
 import './style.css'
 
-/* 1. create the store */
-function createStore({ menuPrice, taxPercent, tipPercent }) {
+/* 1. create the cells */
+/**
+ * Creates directional graph of the data with provided defaults.
+ * @param {Object} defaults
+ * @param {number} defaults.menuPrice
+ * @param {number} defaults.menuPrice
+ * @param {number} defaults.taxPercent
+ * @param {number} defaults.tipPercent
+ */
+function createCells({ menuPrice, taxPercent, tipPercent }) {
   const $menuPrice  = xcell(menuPrice)
   const $taxPercent = xcell(taxPercent)
   const $tipPercent = xcell(tipPercent)
@@ -34,19 +42,24 @@ function createStore({ menuPrice, taxPercent, tipPercent }) {
     $total,
   }
 }
-const store = createStore({ menuPrice: 15, taxPercent: 13, tipPercent: 15 });
+const cells = createCells({ menuPrice: 15, taxPercent: 13, tipPercent: 15 });
 
 /* 2. Connect the inputs and outputs */
-connectInput(MENU_PRICE, store.$menuPrice)
-connectInput(TAX_PERCENT, store.$taxPercent)
-connectInput(TIP_PERCENT, store.$tipPercent)
+connectInput(MENU_PRICE, cells.$menuPrice)
+connectInput(TAX_PERCENT, cells.$taxPercent)
+connectInput(TIP_PERCENT, cells.$tipPercent)
 
-connectOutput(TAX, store.$tax)
-connectOutput(TIP, store.$tip)
-connectOutput(GROSS, store.$gross)
-connectOutput(TOTAL, store.$total)
+connectOutput(TAX, cells.$tax)
+connectOutput(TIP, cells.$tip)
+connectOutput(GROSS, cells.$gross)
+connectOutput(TOTAL, cells.$total)
 
 //#region --- helpers ---
+/**
+ * @param {Element} input
+ * @param {Cell} cell
+ * @param {(string) => any} parse
+ */
 function connectInput(input, cell, parse = Number) {
   input.value = cell.value
   input.addEventListener('change', ev => {
@@ -54,6 +67,11 @@ function connectInput(input, cell, parse = Number) {
   })
 }
 
+/**
+ * @param {Element} output
+ * @param {Cell} cell
+ * @param {(any) => string} format
+ */
 function connectOutput(output, cell, format = formatMoney) {
   output.textContent = format(cell.value)
   cell.on('change', ({ value }) => {
@@ -69,10 +87,15 @@ function add(x, y) {
   return x + y
 }
 
+/**
+ * @param {number} value
+ */
 function formatMoney(value) {
   return value.toFixed(2)
 }
+//#endregion
 
+//#region --- inspector ---
 function autoNameCellsForGraph(store) {
   for (let key in store) {
     if (store[key] instanceof Cell) {
@@ -90,12 +113,9 @@ function extractCellsFromStore(store) {
   }
   return result;
 }
-//#endregion
-
-//#region --- inspector ---
-// connect the debug graph
-autoNameCellsForGraph(store);
-const inspector = inspect(extractCellsFromStore(store), {
+// connect the debug inspector
+autoNameCellsForGraph(cells);
+const inspector = inspect(extractCellsFromStore(cells), {
   renderGraph: true,
   renderDOT: false,
   hidden: (window.innerWidth < 900) || (window.innerHeight < 700)
