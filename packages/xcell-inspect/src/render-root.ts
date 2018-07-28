@@ -32,7 +32,7 @@ export function renderRoot(state: State, send: SendFunction): HTMLElement {
                 <span>loading graph...</span>
               `),
               yo`
-                <i> # of cells: <b>${cellCount}</b> </i>
+                <i><b>${cellCount}</b> cells</i>
               `,
           ])}
           <button type="button" onclick=${() => send('toggleHidden')}>

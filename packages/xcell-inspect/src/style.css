@@ -1,5 +1,10 @@
 :root {
   --light-gray: #ddd;
+  --node-active-color: rgb(173, 255, 47);
+  --node-new-color: yellow;
+  --node-stroke-color: var(--light-gray);
+  --node-fill-color: white;
+  --edge-stroke-color: var(--light-gray);
 }
 
 .xcell-inspect {
@@ -46,24 +51,25 @@
 }
 
 .xcell-inspect svg {
+  background-color: white;
   border: 1px solid var(--light-gray);
   display: block;
 }
 
 .xcell-inspect .nodes ellipse {
-  fill: white;
+  fill: var(--node-fill-color);
   stroke-width: .02px;
-  stroke: #ccc;
+  stroke: var(--node-stroke-color);
   transition: fill 2s ease;
 }
 
 .xcell-inspect .node.changed ellipse {
-  fill: rgb(173, 255, 47);
+  fill: var(--node-active-color);
   transition: none;
 }
 
 .xcell-inspect .node.new ellipse {
-  fill: yellow;
+  fill: var(--node-new-color);
   transition: none;
 }
 
@@ -80,7 +86,7 @@
 
 .xcell-inspect .edges path {
   fill: none;
-  stroke: #ccc;
+  stroke: var(--edge-stroke-color);
   stroke-width: .02px;
 }
 
