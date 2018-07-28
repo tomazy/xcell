@@ -48,8 +48,8 @@
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-22.2.3.tgz#0157c0316dc3722c43a7b71de3fdf3acbccef10d"
 
 "@types/node@^9.3.0":
-  version "9.6.23"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.23.tgz#fc429962c1b75f32bd66214a3997f660e8434f0d"
+  version "9.6.24"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.24.tgz#c1bccb30f30871718b220b34290ccf53e7ee9317"
 
 JSONStream@^1.0.4:
   version "1.3.3"
@@ -5635,10 +5635,6 @@ process@~0.5.1:
 progress@^1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/progress/-/progress-1.1.8.tgz#e260c78f6161cdd9b0e56cc3e0a85de17c7a57be"
-
-promise-defer@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/promise-defer/-/promise-defer-1.0.0.tgz#25a8093f19bab40c62a8e464c97d04fe4cdc0a24"
 
 property-information@^3.1.0:
   version "3.2.0"
